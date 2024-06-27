@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { title, content, published }: PostBlogTypes = parsedBody.data;
-    const authorIdNumber = request.headers.get("X-Author-ID");
+    const authorIdNumber = request.headers.get("x-user-id");
 
     console.log("Author ID from header:", authorIdNumber);
 

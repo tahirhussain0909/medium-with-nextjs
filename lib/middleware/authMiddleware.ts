@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
 
 export function middleware(request: NextRequest) {
+  console.log("control reaches here");
   const token = request.cookies.get("token")?.value;
 
   if (!token) {
@@ -13,7 +14,8 @@ export function middleware(request: NextRequest) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!);
     if (typeof decoded === "object" && "authorId" in decoded) {
       const requestHeaders = new Headers(request.headers);
-      requestHeaders.set("X-Author-ID", decoded.authorId.toString());
+      
+      requestHeaders.set("x-user-id", decoded.authorId.toString());
       return NextResponse.next({
         request: {
           headers: requestHeaders,
@@ -29,5 +31,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: "/api/:path*"
+  matcher: "/api/blog/*"
 };
